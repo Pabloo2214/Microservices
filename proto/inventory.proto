@@ -6,6 +6,11 @@ service InventoryService {
     //define um metodo remoto chamado SearchAllProducts
     //esse metodo recebe uma mensagem do tipo Empty e retorna uma mensagem do tipo ProductsResponse
     rpc SearchAllProducts(Empty) returns (ProductsResponse) {}
+    rpc SearchProductByID(Payload) returns (ProductResponse) {}
+}
+
+message Payload {
+    int32 id = 1;
 }
 
 //mensagem vazia usada como entrada para o metodo SearchAllProducts

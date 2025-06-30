@@ -2,7 +2,7 @@
 const express = require('express');
 
 //importa o cliente gRPC para o serviço de frete
-const shipping = require('.shipping');
+const shipping = require('../shipping');
 
 //importa o cliente gRPC para o serviço de produtos
 const inventory = require('./inventory');
@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 
 /**
- * Retorna a lista de produtos da loja via InventoryService
+cd C:\Users\User\Desktop\microservice
  */
 app.get('/products', (req, res, next) => {
     //chama o método gRPC SearchAllProducts do microsserviço de inventário
@@ -57,6 +57,17 @@ app.get('/shipping/:cep', (req, res, next) => {
         }
     );
 });
+app.get('/product/:id', (req, res, next) => {
+    inventory.SearchProductByID({ id: req.params.id }, (err, product) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send({ error: 'something failed :(' });
+        } else {
+            res.json(product);
+        }
+    });
+});
+
 
 /**
  * Inicia o router (rotas)
